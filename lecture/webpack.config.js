@@ -1,5 +1,5 @@
 const path = require("path");
-
+const devserver = require("@pmmmwh/react-refresh-webpack-plugin");
 module.exports = {
   name: "word-relay-setting",
   mode: "development", //prodction
@@ -18,14 +18,19 @@ module.exports = {
         loader: "babel-loader", //거기에 바벨로더적용한다
         options: {
           presets: ["@babel/preset-env", "@babel/preset-react"],
-          plugins: ["@babel/plugin-proposal-class-properties"],
+          plugins: ["@babel/plugin-proposal-class-properties", "react-refresh/babel"],
         },
       },
     ],
   },
-  plugins: [],
+  plugins: [new devserver()],
   output: {
     path: path.join(__dirname, "dist"),
     filename: "app.js",
+    publicPath: "/dist/",
   }, //출력
+  devServer: {
+    publicPath: "/dist/",
+    hot: true,
+  },
 };
