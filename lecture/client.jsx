@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDom from "react-dom";
-import Test from "./renderTest";
+import {hot} from "react-hot-loader/root";
+import Response from "./Response";
 
-const WordRelay = require("./wordRelay");
 
-ReactDom.render(<Test/>, document.querySelector("#root"));
+const Hot = hot(Response);
+
+
+ReactDom.render(<Hot/>, document.querySelector("#root"));

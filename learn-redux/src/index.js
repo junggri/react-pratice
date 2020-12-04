@@ -2,16 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {createStore} from "redux";
+import {applyMiddleware, compose, createStore} from 'redux';
 import rootReducer from "./modules";
-import {Provider} from "react-redux";
+import {logger} from "redux-logger";
 
-const store = createStore(rootReducer);
-console.log(store.getState());
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger)));
+
 ReactDOM.render(
-   <Provider store={store}>
-      <App/>
-   </Provider>
+   <App/>
    , document.getElementById('root'));
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
