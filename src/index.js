@@ -4,12 +4,20 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import {applyMiddleware, createStore} from 'redux';
+import {Provider} from 'react-redux';
+import rootReducer from './modules';
+import myLogger from './middlewares/MyLogger';
+
+
+const store = createStore(rootReducer, applyMiddleware(myLogger));
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById("root")
+   <Provider store={store}>
+      <App/>
+   </Provider>
+   ,
+   document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

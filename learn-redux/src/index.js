@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import {applyMiddleware, compose, createStore} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import rootReducer from "./modules";
 import {logger} from "redux-logger";
+import ReduxThunk from 'redux-thunk';
+import {Provider} from "react-redux";
+import {BrowserRouter} from 'react-router-dom';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger)));
+const store = createStore(rootReducer, (applyMiddleware(ReduxThunk, logger)));
 
 ReactDOM.render(
-   <App/>
+   <BrowserRouter>
+      <Provider store={store}>
+         <App/>
+      </Provider>
+   </BrowserRouter>
    , document.getElementById('root'));
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
