@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {applyMiddleware, createStore} from 'redux';
-import rootReducer from "./modules";
+import rootReducer, {rootSaga} from "./modules";
 import {logger} from "redux-logger";
 import ReduxThunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import {BrowserRouter} from 'react-router-dom';
 
-const store = createStore(rootReducer, (applyMiddleware(ReduxThunk, logger)));
+import createSagaMiddleware from 'redux-saga';
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, (applyMiddleware(ReduxThunk, sagaMiddleware, logger)));
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
    <BrowserRouter>

@@ -1,13 +1,42 @@
-import React from 'react';
+import {delay, put, takeEvery, takeLatest} from "redux-saga/effects";
 
-function Counter({number, onIncrease, onDecrease}) {
-   return (
-      <div>
-         <h1>{number}</h1>
-         <button onClick={onDecrease}>-1</button>
-         <button onClick={onIncrease}>+1</button>
-      </div>
-   );
+const INCREASE = "INCREASE";
+const DECREASE = "DECREASE";
+const INCREASE_ASYNC = "INCREASE_ASYNC";
+const DECREASE_ASYNC = "DECREASE_ASYNC";
+
+
+export const increase = () => ({type: INCREASE});
+export const decrease = () => ({type: DECREASE});
+export const increaseAsync = () => ({type: INCREASE_ASYNC});
+export const decreaseAsync = () => ({type: DECREASE_ASYNC});
+
+const initialState = 0;
+
+
+function* increaseSaga() {
+   yield delay(1000);
+   yield put(increase());
 }
 
-export default Counter;
+function* decreaseSaga() {
+   yield delay(1000);
+   yield put(decrease());
+}
+
+export function* counterSaga() {
+   yield takeEvery(INCREASE_ASYNC, increaseSaga);
+   yield takeLatest(DECREASE_ASYNC, decreaseSaga);
+}
+
+export default function counter(state = initialState, action) {
+   switch (action.type) {
+      case INCREASE:
+         return state + 1;
+      case DECREASE:
+         return state - 1;
+      default:
+         return state;
+   }
+}
+
