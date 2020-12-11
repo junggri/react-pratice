@@ -1,17 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import {applyMiddleware, createStore} from 'redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import {applyMiddleware, createStore} from "redux";
 import rootReducer, {rootSaga} from "./modules";
-import {logger} from "redux-logger";
-import ReduxThunk from 'redux-thunk';
+import ReduxThunk from "redux-thunk";
 import {Provider} from "react-redux";
-import {BrowserRouter} from 'react-router-dom';
-
-import createSagaMiddleware from 'redux-saga';
+import {BrowserRouter} from "react-router-dom";
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, (applyMiddleware(ReduxThunk, sagaMiddleware, logger)));
+const store = createStore(rootReducer, (applyMiddleware(ReduxThunk)));
 
 sagaMiddleware.run(rootSaga);
 
